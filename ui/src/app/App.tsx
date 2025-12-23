@@ -1,16 +1,7 @@
 import { createSignal, type Setter } from "solid-js";
-
-type OllamaStreamChunk = {
-  model: string;
-  created_at: string;
-  response: string;
-  done: boolean;
-  done_reason?: string;
-};
+import { type OllamaStreamChunk } from "../types/responses";
 
 async function* askOllama(input: string, reset: Setter<string>) {
-  console.log("Text:", input);
-
   const body = {
     model: "mistral",
     prompt: input,
@@ -35,15 +26,14 @@ async function* askOllama(input: string, reset: Setter<string>) {
 }
 
 function App() {
-  const [reply, setReply] = createSignal<string>("");
+  const [replyChunks, setReplyChunks] = createSignal<string>("");
   const [input, setInput] = createSignal<string>("");
 
   const submit = async () => {
-    setReply("");
+    setReplyChunks("");
     if (input().length > 1) {
       for await (const chunk of askOllama(input(), setInput)) {
-        console.log(chunk.response);
-        setReply((prev) => prev + chunk.response);
+        setReplyChunks((prev) => prev + chunk.response);
       }
     }
     // Else, throw a helpful message + add form validation
@@ -59,7 +49,7 @@ function App() {
         onInput={(e) => setInput(e.currentTarget.value)}
       />
       <button onClick={submit}>Submit</button>
-      {reply()}
+      {replyChunks()}
     </div>
   );
 }
