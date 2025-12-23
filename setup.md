@@ -77,5 +77,8 @@ docker run --rm --gpus all nvidia/cuda:12.3.2-base-ubuntu22.04 nvidia-smi
 
 This enables me to use the deploy context in the docker-compose for NVIDIA acceleration.
 
+- Lets's download a model: docker exec -it ollama ollama run mistral
+- Endpoints: https://docs.ollama.com/api/introduction
+
 # Setting up the frontend:
 pnpm create vite
