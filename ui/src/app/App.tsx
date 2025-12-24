@@ -1,6 +1,6 @@
 import { createSignal, type Setter } from "solid-js";
-import { type OllamaStreamChunk } from "../types/responses";
-import { DefaultLayout } from "./layouts/Default";
+import { type OllamaStreamChunk } from "@/types/responses";
+import DefaultLayout from "@/app/layouts/Default";
 
 async function* askOllama(input: string, reset: Setter<string>) {
   const body = {
@@ -42,7 +42,7 @@ function App() {
 
   return (
     <DefaultLayout>
-      <div>
+      <div class="bg-red-300 flex flex-col grow">
         <input
           type="text"
           min="1"
