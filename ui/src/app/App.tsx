@@ -1,5 +1,6 @@
 import { createSignal, type Setter } from "solid-js";
 import { type OllamaStreamChunk } from "../types/responses";
+import { DefaultLayout } from "./layouts/Default";
 
 async function* askOllama(input: string, reset: Setter<string>) {
   const body = {
@@ -40,17 +41,19 @@ function App() {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        min="1"
-        placeholder="Enter a prompt"
-        value={input()}
-        onInput={(e) => setInput(e.currentTarget.value)}
-      />
-      <button onClick={submit}>Submit</button>
-      {replyChunks()}
-    </div>
+    <DefaultLayout>
+      <div>
+        <input
+          type="text"
+          min="1"
+          placeholder="Enter a prompt"
+          value={input()}
+          onInput={(e) => setInput(e.currentTarget.value)}
+        />
+        <button onClick={submit}>Submit</button>
+        {replyChunks()}
+      </div>
+    </DefaultLayout>
   );
 }
 

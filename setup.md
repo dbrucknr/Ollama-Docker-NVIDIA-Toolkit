@@ -82,3 +82,6 @@ This enables me to use the deploy context in the docker-compose for NVIDIA accel
 
 # Setting up the frontend:
 pnpm create vite
+pnpm i tailwindcss @tailwindcss/vite
+
+https://tailwindcss.com/docs/installation/using-vite
