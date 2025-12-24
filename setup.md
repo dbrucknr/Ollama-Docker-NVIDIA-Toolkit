@@ -80,6 +80,14 @@ This enables me to use the deploy context in the docker-compose for NVIDIA accel
 - Lets's download a model: docker exec -it ollama ollama run mistral
 - Endpoints: https://docs.ollama.com/api/introduction
 
+Check Docker Status:
+- sudo systemctl status docker
+- Start manually: sudo systemctl start docker
+- Configure start on boot: sudo systemctl enable docker
+- Add user to docker group: sudo usermod -aG docker $USER
+
+
+
 # Setting up the frontend:
 pnpm create vite
 pnpm i tailwindcss @tailwindcss/vite

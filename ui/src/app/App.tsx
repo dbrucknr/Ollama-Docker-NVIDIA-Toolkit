@@ -1,30 +1,7 @@
-import { createSignal, type Setter } from "solid-js";
-import { type OllamaStreamChunk } from "@/types/responses";
+import { createSignal, createEffect } from "solid-js";
+import { generateResponse } from "@/app/services/ollama.services";
+
 import DefaultLayout from "@/app/layouts/Default";
-
-async function* askOllama(input: string, reset: Setter<string>) {
-  const body = {
-    model: "mistral",
-    prompt: input,
-    stream: true,
-  };
-  reset("");
-
-  const response = await fetch(`http://localhost:11434/api/generate`, {
-    method: "POST",
-    body: JSON.stringify(body),
-  });
-  if (!response.body) return;
-  const stream = new TextDecoderStream();
-  const reader = response.body.pipeThrough(stream).getReader();
-
-  while (true) {
-    const { value, done } = await reader.read();
-    if (done) break;
-    const data = JSON.parse(value) as OllamaStreamChunk;
-    yield data;
-  }
-}
 
 function App() {
   const [replyChunks, setReplyChunks] = createSignal<string>("");
@@ -33,25 +10,53 @@ function App() {
   const submit = async () => {
     setReplyChunks("");
     if (input().length > 1) {
-      for await (const chunk of askOllama(input(), setInput)) {
+      for await (const chunk of generateResponse(input(), setInput)) {
         setReplyChunks((prev) => prev + chunk.response);
       }
     }
     // Else, throw a helpful message + add form validation
   };
 
+  createEffect(() => {
+    const replyElement = document.getElementById("reply");
+    if (replyElement) {
+      replyElement.scrollTo({
+        top: replyElement.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  });
+
   return (
     <DefaultLayout>
-      <div class="bg-red-300 flex flex-col grow">
-        <input
-          type="text"
-          min="1"
-          placeholder="Enter a prompt"
-          value={input()}
-          onInput={(e) => setInput(e.currentTarget.value)}
-        />
-        <button onClick={submit}>Submit</button>
-        {replyChunks()}
+      <div class="flex flex-col h-full">
+        {/* Reply area */}
+        <div id="reply" class="flex-1 overflow-y-auto p-4">
+          <pre class="whitespace-pre-wrap">{replyChunks()}</pre>
+        </div>
+        {/* Input area */}
+        <div class="border-t p-4 flex gap-2">
+          <input
+            type="text"
+            min="1"
+            placeholder="Enter a prompt"
+            value={input()}
+            onInput={(e) => setInput(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                submit();
+              }
+            }}
+            class="flex-1 border rounded px-2 py-1"
+          />
+          <button
+            onClick={submit}
+            class="px-4 py-1 rounded bg-blue-600 text-white cursor-pointer"
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </DefaultLayout>
   );

@@ -4,7 +4,9 @@ function DefaultLayout(props: ParentProps) {
   const [sidebarDisplay, setSidebarDisplay] = createSignal<boolean>(false);
 
   return (
+    // Main Container
     <div class="flex flex-col min-h-screen">
+      {/* Header */}
       <header class="bg-blue-500 p-4 flex items-center justify-between">
         <span class="text-white font-semibold">Header</span>
         {/* Small Screen Toggle */}
@@ -28,19 +30,28 @@ function DefaultLayout(props: ParentProps) {
             class="fixed inset-0 bg-black/50 z-40 md:hidden cursor-pointer"
             onClick={() => setSidebarDisplay(false)}
           />
-          {/* Mobile Sidebar */}
-          <aside class="fixed top-0 left-0 inset-y-0 w-80 bg-gray-200 p-4 z-50 md:hidden animate-slide-in flex flex-col">
-            <div class="flex items-center justify-end mb-4">
-              <button
-                class="text-sm text-gray-600 cursor-pointer"
-                onClick={() => setSidebarDisplay(false)}
-              >
-                ✕
-              </button>
-            </div>
-            <div class="bg-yellow-300 flex-1 overflow-y-auto">Left Sidebar</div>
-          </aside>
         </Show>
+
+        {/* Mobile Sidebar */}
+        <aside
+          class={`
+            fixed inset-y-0 left-0 w-80 bg-gray-200 p-4 z-50 md:hidden
+            flex flex-col
+            transform transition-transform duration-300 ease-out
+            ${sidebarDisplay() ? "translate-x-0 pointer-events-auto shadow-xl" : "-translate-x-full pointer-events-none"}
+          `}
+        >
+          <button
+            class="mb-4 text-sm text-gray-600 self-end"
+            onClick={() => setSidebarDisplay(false)}
+          >
+            ✕
+          </button>
+
+          <div class="bg-yellow-300 flex-1 overflow-y-auto overscroll-contain">
+            Left Sidebar
+          </div>
+        </aside>
 
         <main class="grow p-4 order-2 md:order-1 flex flex-col">
           {props.children}
