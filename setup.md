@@ -91,5 +91,7 @@ Check Docker Status:
 # Setting up the frontend:
 pnpm create vite
 pnpm i tailwindcss @tailwindcss/vite
-
 https://tailwindcss.com/docs/installation/using-vite
+
+pnpm i solid-icons
+https://solid-icons.vercel.app/

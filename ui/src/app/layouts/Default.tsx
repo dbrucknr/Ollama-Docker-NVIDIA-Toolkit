@@ -1,5 +1,7 @@
 import { createSignal, Show, type ParentProps } from "solid-js";
+import { HiOutlineBars3, HiOutlineXMark } from "solid-icons/hi";
 
+/// Provides a messenger layout.
 function DefaultLayout(props: ParentProps) {
   const [sidebarDisplay, setSidebarDisplay] = createSignal<boolean>(false);
 
@@ -14,13 +16,13 @@ function DefaultLayout(props: ParentProps) {
           class="md:hidden text-white cursor-pointer"
           onClick={() => setSidebarDisplay(true)}
         >
-          Sidebar
+          <HiOutlineBars3 class="size-6" />
         </button>
       </header>
       <div class="flex grow relative">
         {/* Desktop Sidebar */}
-        <aside class="hidden md:flex md:w-80 p-4 bg-gray-200 order-1">
-          <div class="bg-yellow-300 flex flex-col grow">Left Sidebar</div>
+        <aside class="hidden md:flex md:w-80 p-4 bg-gray-200 order-1 shrink-0">
+          <div class="flex flex-col grow">Left Sidebar</div>
         </aside>
 
         {/* Mobile Sidebar Context */}
@@ -42,13 +44,13 @@ function DefaultLayout(props: ParentProps) {
           `}
         >
           <button
-            class="mb-4 text-sm text-gray-600 self-end"
+            class="mb-4 text-sm text-gray-600 self-end cursor-pointer"
             onClick={() => setSidebarDisplay(false)}
           >
-            ✕
+            <HiOutlineXMark class="size-6" />
           </button>
 
-          <div class="bg-yellow-300 flex-1 overflow-y-auto overscroll-contain">
+          <div class="bg-gray-200 flex-1 overflow-y-auto overscroll-contain">
             Left Sidebar
           </div>
         </aside>

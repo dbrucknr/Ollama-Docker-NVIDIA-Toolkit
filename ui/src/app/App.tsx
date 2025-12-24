@@ -17,22 +17,21 @@ function App() {
     // Else, throw a helpful message + add form validation
   };
 
+  let replyRef: HTMLPreElement | undefined;
+
   createEffect(() => {
-    const replyElement = document.getElementById("reply");
-    if (replyElement) {
-      replyElement.scrollTo({
-        top: replyElement.scrollHeight,
-        behavior: "smooth",
-      });
-    }
+    replyChunks(); // Track Chunks
+    replyRef?.scrollIntoView({ behavior: "auto", block: "end" });
   });
 
   return (
     <DefaultLayout>
       <div class="flex flex-col h-full">
         {/* Reply area */}
-        <div id="reply" class="flex-1 overflow-y-auto p-4">
-          <pre class="whitespace-pre-wrap">{replyChunks()}</pre>
+        <div class="flex-1 overflow-y-auto p-4">
+          <pre ref={replyRef} class="whitespace-pre-wrap">
+            {replyChunks()}
+          </pre>
         </div>
         {/* Input area */}
         <div class="border-t p-4 flex gap-2">
