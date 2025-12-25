@@ -7,7 +7,7 @@ function DefaultLayout(props: ParentProps) {
 
   return (
     // Main Container
-    <div class="flex flex-col min-h-screen">
+    <div class="flex flex-col h-screen overflow-hidden">
       {/* Header */}
       <header class="bg-blue-500 p-4 flex items-center justify-between">
         <span class="text-white font-semibold">Header</span>
@@ -19,7 +19,8 @@ function DefaultLayout(props: ParentProps) {
           <HiOutlineBars3 class="size-6" />
         </button>
       </header>
-      <div class="flex grow relative">
+      {/* Main Container */}
+      <div class="flex flex-1 overflow-hidden">
         {/* Desktop Sidebar */}
         <aside class="hidden md:flex md:w-80 p-4 bg-gray-200 order-1 shrink-0">
           <div class="flex flex-col grow">Left Sidebar</div>
@@ -55,7 +56,7 @@ function DefaultLayout(props: ParentProps) {
           </div>
         </aside>
 
-        <main class="grow p-4 order-2 md:order-1 flex flex-col">
+        <main class="flex-1 p-4 order-2 md:order-1 flex flex-col overflow-hidden">
           {props.children}
         </main>
       </div>
