@@ -1,6 +1,6 @@
 I uninstalled my docker-desktop context (as it was buggy and probably misinstalled from a few years ago)
 
-Uninstalling Docker
+# Uninstalling Docker
 
 Check to see if it's installed:
 - dpkg -l | grep -i docker
@@ -25,7 +25,7 @@ Check stage:
 - dpkg -l | grep -i docker
     - Appears to be fully uninstalled
     
-Reinstall Phase:
+# Reinstall Phase:
 
 Pre-requisite packages:
 sudo apt update && sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -74,3 +74,24 @@ sudo apt install -y nvidia-container-toolkit
 sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 docker run --rm --gpus all nvidia/cuda:12.3.2-base-ubuntu22.04 nvidia-smi
+
+This enables me to use the deploy context in the docker-compose for NVIDIA acceleration.
+
+- Lets's download a model: docker exec -it ollama ollama run mistral
+- Endpoints: https://docs.ollama.com/api/introduction
+
+Check Docker Status:
+- sudo systemctl status docker
+- Start manually: sudo systemctl start docker
+- Configure start on boot: sudo systemctl enable docker
+- Add user to docker group: sudo usermod -aG docker $USER
+
+
+
+# Setting up the frontend:
+pnpm create vite
+pnpm i tailwindcss @tailwindcss/vite
+https://tailwindcss.com/docs/installation/using-vite
+
+pnpm i solid-icons
+https://solid-icons.vercel.app/
