@@ -1,14 +1,16 @@
 volumes:
   ollama_data:
     name: ollama_data
+  cargo-target:
+    name: cargo-target
 
 services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
     ports:
-      # - "11434:11434"
-      - "127.0.0.1:11434:11434"
+      - "11434:11434"
+      # - "127.0.0.1:11434:11434"
     volumes:
       - ollama_data:/root/.ollama
     # Requires NVIDIA-Toolkit install (Host System):
@@ -20,3 +22,37 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
+  # Development Target: docker compose --profile dev up --build
+  dev:
+    image: rust-ai-chatbot:dev
+    container_name: rust-ai-chatbot-dev
+    ports:
+      - "127.0.0.1:8000:8000"
+    build:
+      context: .
+      dockerfile: ./core/Dockerfile
+      target: dev
+    profiles: ["dev"]
+    volumes:
+      - ./core:/app
+      - cargo-target:/root/.cargo/target
+    working_dir: /app
+    depends_on:
+      - ollama
+    command: watchexec --restart --watch src --exts rs cargo run
+
+  # Production Target: docker compose --profile prod up --build -d
+  prod:
+    image: rust-ai-chatbot:prod
+    container_name: rust-ai-chatbot-prod
+    build:
+      context: .
+      dockerfile: ./core/Dockerfile
+      target: runtime
+    profiles: ["prod"]
+    volumes:
+      - cargo-target:/root/.cargo/target
+    depends_on:
+      - ollama
+    command: cargo run
