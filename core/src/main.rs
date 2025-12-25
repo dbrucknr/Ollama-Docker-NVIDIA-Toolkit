@@ -1,6 +1,7 @@
 pub mod server;
 pub mod app;
 pub mod api;
+pub mod providers;
 
 use std::{process::ExitCode, io::Result as IoResult};
 

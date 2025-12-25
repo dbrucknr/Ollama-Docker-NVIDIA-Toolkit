@@ -40,6 +40,8 @@ services:
     working_dir: /app
     depends_on:
       - ollama
+    environment:
+      OLLAMA_API_BASE_URL: http://ollama:11434
     command: watchexec --restart --watch src --exts rs cargo run
 
   # Production Target: docker compose --profile prod up --build -d

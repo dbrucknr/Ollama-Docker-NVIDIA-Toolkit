@@ -19,7 +19,7 @@ COPY ./core/src ./src
 FROM base AS dev
 
 # Copy everything
-COPY . .
+COPY ./core .
 
 # Install watchexec
 RUN apt-get update && \
