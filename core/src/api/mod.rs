@@ -1,11 +1,11 @@
 use axum::{Router};
 
 pub mod error;
-
-pub mod controllers;
-use controllers::OllamaController;
-
 pub mod traits;
+pub mod schemas;
+pub mod controllers;
+
+use controllers::OllamaController;
 use traits::ApiRouter;
 
 use crate::api::traits::ControllerRoutes;

@@ -7,13 +7,14 @@ function App() {
   const [replyChunks, setReplyChunks] = createSignal<string>("");
   const [input, setInput] = createSignal<string>("");
 
-  const [placeholder, setPlaceholder] = createSignal<string>("");
+  // const [placeholder, setPlaceholder] = createSignal<string>("");
 
   const submit = async () => {
     setReplyChunks("");
     if (input().length > 1) {
       for await (const chunk of generateResponse(input(), setInput)) {
-        setReplyChunks((prev) => prev + chunk.response);
+        console.log("---->", chunk);
+        setReplyChunks((prev) => prev + chunk);
       }
     }
     // Else, throw a helpful message + add form validation
@@ -22,18 +23,18 @@ function App() {
   let replyRef: HTMLPreElement | undefined;
 
   createEffect(() => {
-    // replyChunks(); // Track Chunks
-    placeholder()
-    replyRef?.scrollIntoView({ behavior: "smooth", block: "end",  });
+    replyChunks(); // Track Chunks
+    // placeholder();
+    replyRef?.scrollIntoView({ behavior: "smooth", block: "end" });
   });
 
-  onMount(async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    if (response.ok) {
-    const text = await response.text()
-    setPlaceholder(text)
-    }
-  })
+  // onMount(async () => {
+  //   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  //   if (response.ok) {
+  //     const text = await response.text();
+  //     setPlaceholder(text);
+  //   }
+  // });
 
   return (
     <DefaultLayout>
@@ -42,7 +43,7 @@ function App() {
         <div class="flex-1 overflow-y-auto p-4">
           <pre ref={replyRef} class="whitespace-pre-wrap overflow-y-auto">
             {replyChunks()}
-            {placeholder()}
+            {/*{placeholder()}*/}
           </pre>
         </div>
         {/* Input area */}
