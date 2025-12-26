@@ -1,5 +1,5 @@
-import { createSignal, createEffect, onMount } from "solid-js";
-import { generateResponse } from "@/app/services/ollama.services";
+import { createSignal, createEffect } from "solid-js";
+import { streamResponse } from "@/app/services/ollama.services";
 
 import DefaultLayout from "@/app/layouts/Default";
 
@@ -7,12 +7,10 @@ function App() {
   const [replyChunks, setReplyChunks] = createSignal<string>("");
   const [input, setInput] = createSignal<string>("");
 
-  // const [placeholder, setPlaceholder] = createSignal<string>("");
-
   const submit = async () => {
     setReplyChunks("");
     if (input().length > 1) {
-      for await (const chunk of generateResponse(input(), setInput)) {
+      for await (const chunk of streamResponse(input(), setInput)) {
         console.log("---->", chunk);
         setReplyChunks((prev) => prev + chunk.content);
       }
@@ -23,18 +21,9 @@ function App() {
   let replyRef: HTMLPreElement | undefined;
 
   createEffect(() => {
-    replyChunks(); // Track Chunks
-    // placeholder();
+    replyChunks(); // Track Reply Chunks
     replyRef?.scrollIntoView({ behavior: "smooth", block: "end" });
   });
-
-  // onMount(async () => {
-  //   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-  //   if (response.ok) {
-  //     const text = await response.text();
-  //     setPlaceholder(text);
-  //   }
-  // });
 
   return (
     <DefaultLayout>
@@ -43,7 +32,6 @@ function App() {
         <div class="flex-1 overflow-y-auto p-4">
           <pre ref={replyRef} class="whitespace-pre-wrap overflow-y-auto">
             {replyChunks()}
-            {/*{placeholder()}*/}
           </pre>
         </div>
         {/* Input area */}

@@ -1,13 +1,7 @@
 import { type Setter } from "solid-js";
 import { type StreamChunk } from "@/types/responses";
 
-export async function* generateResponse(input: string, reset: Setter<string>) {
-  // const body = {
-  //   model: "mistral",
-  //   prompt: input,
-  //   stream: true,
-  // };
-
+export async function* streamResponse(input: string, reset: Setter<string>) {
   let body = {
     query: input,
   };
@@ -36,13 +30,9 @@ export async function* generateResponse(input: string, reset: Setter<string>) {
     }
     buffer += value;
     let parts = buffer.split("\n\n");
-    // console.log("---->", parts);
     buffer = parts.pop()!; // incomplete chunk stays in buffer
 
-    // const data = JSON.parse(value) as OllamaStreamChunk;
-    // yield data;
     for (const msg of parts) {
-      // console.log("---->", msg);
       const lines = msg.split("\n");
       const eventLine = lines.find((l) => l.startsWith("event:"));
       if (eventLine !== undefined && !eventLine.endsWith("assistant")) continue; // skip other events
@@ -52,15 +42,6 @@ export async function* generateResponse(input: string, reset: Setter<string>) {
         const data = JSON.parse(line.slice(6));
         yield data as StreamChunk;
       }
-      // console.log(dataLine);
-      // const eventLine = lines.find((l) => l.startsWith("event:"));
-      // console.log("===================>", eventLine);
-      // if (!dataLine) continue;
-      // if (eventLine !== undefined && !eventLine.endsWith("assistant")) continue; // skip other events
-
-      // const data = JSON.parse(dataLine.slice(5));
-      // console.log("---->", dataLine.slice(5));
-      // yield dataLine.slice(6);
     }
   }
 }
