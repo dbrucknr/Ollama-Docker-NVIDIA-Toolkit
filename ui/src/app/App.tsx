@@ -14,7 +14,7 @@ function App() {
     if (input().length > 1) {
       for await (const chunk of generateResponse(input(), setInput)) {
         console.log("---->", chunk);
-        setReplyChunks((prev) => prev + chunk);
+        setReplyChunks((prev) => prev + chunk.content);
       }
     }
     // Else, throw a helpful message + add form validation

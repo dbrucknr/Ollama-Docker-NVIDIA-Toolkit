@@ -1,5 +1,5 @@
 import { type Setter } from "solid-js";
-import { type OllamaStreamChunk } from "@/types/responses";
+import { type StreamChunk } from "@/types/responses";
 
 export async function* generateResponse(input: string, reset: Setter<string>) {
   // const body = {
@@ -49,7 +49,8 @@ export async function* generateResponse(input: string, reset: Setter<string>) {
       const dataLines = lines.filter((l) => l.startsWith("data:"));
 
       for (const line of dataLines) {
-        yield line.slice(6);
+        const data = JSON.parse(line.slice(6));
+        yield data as StreamChunk;
       }
       // console.log(dataLine);
       // const eventLine = lines.find((l) => l.startsWith("event:"));
