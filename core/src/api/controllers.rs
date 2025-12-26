@@ -30,6 +30,7 @@ impl GenerateResponse for OllamaController {
         Ok(response.to_string())
     }
 }
+// POST http://localhost:8000/api/ollama/stream
 impl StreamResponse for OllamaController {
     async fn stream_response(
         Extension(provider): Extension<Arc<OllamaProvider>>,
