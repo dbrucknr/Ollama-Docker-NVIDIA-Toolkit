@@ -1,8 +1,12 @@
+// Standard Library Crates
 use std::{convert::Infallible, sync::Arc};
+
+// Third Party Library Crates
 use futures::{Stream, stream::StreamExt};
 use axum::{Router, routing::post, Extension, Json, response::sse::{Event, Sse}};
 use rig::{agent::MultiTurnStreamItem, completion::Prompt, streaming::{StreamedAssistantContent, StreamingPrompt}};
 
+// Local Library Crates
 use crate::providers::{OllamaProvider, traits::{GenerateResponse, StreamResponse}};
 use crate::api::{traits::ControllerRoutes, error::ControllerError, schemas::{QueryRequestBody, StreamingChunk}};
 

@@ -1,19 +1,21 @@
-use axum::{Router};
-
+// Local Module Registry
 pub mod error;
 pub mod traits;
 pub mod schemas;
 pub mod controllers;
 
-use controllers::OllamaController;
-use traits::ApiRouter;
+// Third Party Library Crates
+use axum::{Router};
 
+// Local Library Crates
+use traits::ApiRouter;
+use controllers::OllamaController;
 use crate::api::traits::ControllerRoutes;
 
 pub struct Api {
     // Register controllers here
     router: Router,
-    ollama: OllamaController,
+    ollama: OllamaController, // Consider dynamic dispatch pattern for testability
 }
 impl Api {
     pub fn new() -> Self {

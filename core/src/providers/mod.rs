@@ -1,5 +1,6 @@
+// Local Module Registry
 pub mod traits;
-
+// Third Party Library Crates
 use rig::agent::Agent;
 use rig::providers::ollama::CompletionModel;
 use rig::{client::{CompletionClient, ProviderClient}, providers::ollama::Client};

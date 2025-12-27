@@ -1,8 +1,11 @@
+// Local Module Registry
+pub mod traits;
+
+// Third Party Library Crates
 use axum::Router;
 
-pub mod traits;
+// Local Library Crates
 use traits::ApplicationRouter;
-
 use crate::api::traits::ApiRouter;
 
 pub struct Application {
