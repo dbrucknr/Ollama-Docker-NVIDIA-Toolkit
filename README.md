@@ -14,7 +14,19 @@ To begin the development context, you can run:
 - Pull the mistral LLM into the container: `docker exec -it ollama ollama run mistral`
 - You can run the provided ui by changing into the `ui` directory and running `pnpm run dev`.
   - The `/ui` is set to proxy the backend in the `vite.config.ts` file.
+  - If you want Rust to serve the frontend `/ui` package, you must run:
   
+```bash
+pnpm run build
+```
+  
+<!-- When /ui is built and hosted from axum -->
+pnpm build --watch
+docker compose up
+
+To inspect container: docker compose --profile dev run --rm dev bash
+
+
 
 Agent routing: https://github.com/0xPlaygrounds/rig/blob/main/rig/rig-core/examples/agent_routing.rs
 Ollama Stream Pause / Resume: https://github.com/0xPlaygrounds/rig/blob/main/rig/rig-core/examples/ollama_streaming_pause_control.rs

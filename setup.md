@@ -100,3 +100,7 @@ https://solid-icons.vercel.app/
 # Setting up Axum Backend api
 - cargo new --bin core
 - cargo add rig-core (while in local /core directory)
+
+
+Serve built frontend: 
+- cargo add tower-http -F tower-http/fs

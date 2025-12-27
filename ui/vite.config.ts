@@ -16,10 +16,10 @@ export default defineConfig({
       // Proxy requests that start with "/api" to our Rust backend (Dev Only)
       "/api": {
         target: "http://localhost:8000",
-        // changeOrigin: true,
-        // Remove the "/api"
-        // rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
+  },
+  build: {
+    outDir: "../core/static",
   },
 });
