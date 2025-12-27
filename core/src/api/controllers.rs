@@ -7,8 +7,15 @@ use axum::{Router, routing::post, Extension, Json, response::sse::{Event, Sse}};
 use rig::{agent::MultiTurnStreamItem, completion::Prompt, streaming::{StreamedAssistantContent, StreamingPrompt}};
 
 // Local Library Crates
-use crate::providers::{OllamaProvider, traits::{GenerateResponse, StreamResponse}};
-use crate::api::{traits::ControllerRoutes, error::ControllerError, schemas::{QueryRequestBody, StreamingChunk}};
+use crate::bot::providers::{OllamaProvider, traits::{GenerateResponse, StreamResponse}};
+use crate::api::{
+    traits::ControllerRoutes,
+    error::ControllerError,
+    schemas::{
+        QueryRequestBody,
+        StreamingChunk
+    }
+};
 
 pub struct OllamaController {
     pub provider: Arc<OllamaProvider>,
