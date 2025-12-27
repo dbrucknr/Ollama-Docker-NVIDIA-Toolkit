@@ -95,3 +95,8 @@ https://tailwindcss.com/docs/installation/using-vite
 
 pnpm i solid-icons
 https://solid-icons.vercel.app/
+
+
+# Setting up Axum Backend api
+- cargo new --bin core
+- cargo add rig-core (while in local /core directory)
