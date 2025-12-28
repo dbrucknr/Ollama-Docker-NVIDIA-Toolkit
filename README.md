@@ -8,7 +8,7 @@
     - I have a history of what I opted to do in a `setup.md` file in this repository.
     - I'm running Linux with a NVIDIA 4080 Super on a desktop PC.
 
-## Development Instructions
+## Development Instructions (First time launch)
 To begin the development context, you can run:
 - `docker compose --profile dev up --build` (add `-d` flag for detached mode)
 - Pull the mistral LLM into the container: `docker exec -it ollama ollama run mistral`
@@ -20,7 +20,7 @@ To begin the development context, you can run:
 pnpm run build
 ```
   
-<!-- When /ui is built and hosted from axum -->
+<!-- Hot-Reload when /ui is built and hosted from axum -->
 pnpm build --watch
 docker compose up
 

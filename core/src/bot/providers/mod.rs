@@ -1,9 +1,13 @@
 // Local Module Registry
 pub mod traits;
+
 // Third Party Library Crates
 use rig::agent::Agent;
 use rig::providers::ollama::CompletionModel;
 use rig::{client::{CompletionClient, ProviderClient}, providers::ollama::Client};
+
+// Local Library Crates
+use crate::bot::tools::current_date::CurrentDateTool;
 
 pub struct OllamaProvider {
     pub agent: Agent<CompletionModel>,
@@ -15,7 +19,14 @@ impl OllamaProvider {
         // docker exec -it ollama ollama run mistra
         let agent = Client::from_env()
             .agent("mistral")
-            .preamble("You're a friendly companion.")
+            .preamble(
+                r#"
+                You are a friendly companion. Be polite, friendly, and helpful.
+                IMPORTANT RULES:
+                - Only use tools when the user explicitly asks for information relevant to the tool's provided functionality.
+                "#
+            )
+            .tool(CurrentDateTool)
             .temperature(0.5)
             .build();
 

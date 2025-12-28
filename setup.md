@@ -104,3 +104,5 @@ https://solid-icons.vercel.app/
 
 Serve built frontend: 
 - cargo add tower-http -F tower-http/fs
+- Configure the /ui folder's vite.config.ts file to emit build data into the /core Rust context.
+- In the /ui pkg run: pnpm build

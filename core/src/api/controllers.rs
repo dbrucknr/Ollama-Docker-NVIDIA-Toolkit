@@ -75,13 +75,16 @@ impl StreamResponse for OllamaController {
                             }
                         }
 
-                        StreamedAssistantContent::ToolCall(_) => {
+                        StreamedAssistantContent::ToolCall(call) => {
+                            println!("Tool Call -----> {:#?}", call);
+
                             Event::default()
                                 .event("tool-call")
-                                .data("tool call")
+                                .data(call.function.name)
                         }
 
                         StreamedAssistantContent::ToolCallDelta { id, delta } => {
+                            println!("{} - {:#?}", id, delta);
                             Event::default()
                                 .event("tool-call-delta")
                                 .data(delta)
