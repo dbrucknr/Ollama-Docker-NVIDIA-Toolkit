@@ -12,13 +12,14 @@ RUN apt-get update && apt-get install -y pkg-config libssl-dev ca-certificates
 COPY ./core/Cargo.toml ./core/Cargo.lock ./
 # Copy the source code
 COPY ./core/src ./src
+# COPY ./core/static ./static
 
 # -------------------------------------
 # Development Target
 # -------------------------------------
 FROM base AS dev
 
-# Copy everything
+# Copy everything (including static assets)
 COPY ./core .
 
 # Install watchexec
@@ -40,5 +41,6 @@ RUN cargo build --release
 FROM debian:bookworm-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/core /app/core
+# COPY ./core/static ./static
 EXPOSE 8000
 CMD ["/app/core"]

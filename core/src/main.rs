@@ -1,8 +1,8 @@
 // Local Module Registry
-pub mod server;
 pub mod app;
 pub mod api;
-pub mod providers;
+pub mod bot;
+pub mod server;
 
 // Standard Library Crates
 use std::{process::ExitCode, io::Result as IoResult};

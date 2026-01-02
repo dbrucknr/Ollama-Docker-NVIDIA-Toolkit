@@ -6,7 +6,7 @@ use futures::Stream;
 use axum::{Extension, Json, response::sse::{Sse, Event}};
 
 // Local Library Crates
-use crate::{api::{error::ControllerError, schemas::QueryRequestBody}, providers::OllamaProvider};
+use crate::{bot::providers::OllamaProvider, api::{error::ControllerError, schemas::QueryRequestBody}};
 
 // I think these traits may belong in /controllers - it feels like domain contamination
 // to have providers define api specific contexts (Json, Sse, ControllerError)

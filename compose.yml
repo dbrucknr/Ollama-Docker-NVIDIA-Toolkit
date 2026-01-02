@@ -35,6 +35,7 @@ services:
     profiles: ["dev"]
     volumes:
       - ./core:/app
+      - ./core/static:/app/static # frontend build mounted
       - cargo-target:/root/.cargo/target
     working_dir: /app
     depends_on:
@@ -56,4 +57,6 @@ services:
       - cargo-target:/root/.cargo/target
     depends_on:
       - ollama
+    environment:
+      OLLAMA_API_BASE_URL: http://ollama:11434
     command: cargo run
