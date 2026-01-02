@@ -3,7 +3,9 @@ pub mod traits;
 
 // Third Party Library Crates
 use rig::agent::Agent;
+// use rig::providers::openai::CompletionModel;
 use rig::providers::ollama::CompletionModel;
+// use rig::providers::openai::Client;
 use rig::{
     client::{CompletionClient, ProviderClient},
     providers::ollama::Client,
@@ -21,15 +23,14 @@ pub struct OllamaProvider {
 
 impl OllamaProvider {
     pub fn new() -> Self {
-        // NOTE - mistral must be pulled into Ollama
-        // docker exec -it ollama ollama run mistra
         let agent = Client::from_env()
-            .agent("mistral")
+            .agent("llama3.1")
             .preamble(
                 r#"
                 You are a helpful assistant that can solve problems. Use the tools provided to answer the user's question.
                 "#,
             )
+            // When using Ollama - these tools are not being assigned an ID
             .tool(CurrentDateTool)
             .tool(Adder)
             .tool(Subtract)
