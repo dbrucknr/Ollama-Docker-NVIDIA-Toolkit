@@ -1,11 +1,8 @@
-use std::convert::Infallible;
 use chrono::prelude::*;
-use rig::{
-    tool::Tool,
-    completion::ToolDefinition,
-};
+use rig::{completion::ToolDefinition, tool::Tool};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
+use std::convert::Infallible;
 
 #[derive(Serialize, Deserialize)]
 pub struct CurrentDateTool;
@@ -25,7 +22,8 @@ impl Tool for CurrentDateTool {
     async fn definition(&self, _prompt: String) -> ToolDefinition {
         ToolDefinition {
             name: Self::NAME.to_string(),
-            description: "ONLY use this tool when the user explicitly asks for the current date or time. DO NOT use it otherwise.".to_string(),
+            description: "Use this tool when the user asks for the current date or time."
+                .to_string(),
             parameters: json!({
                 "format": {
                     "type": "object",
@@ -41,18 +39,15 @@ impl Tool for CurrentDateTool {
         }
     }
 
-    async fn call(
-            &self,
-            args: Self::Args,
-        ) -> Result<Self::Output, Self::Error> {
-            let now = Utc::now();
-            println!("Current date and time: {}", now);
+    async fn call(&self, args: Self::Args) -> Result<Self::Output, Self::Error> {
+        let now = Utc::now();
+        println!("Current date and time: {}", now);
 
-            let output = match args.format.as_deref() {
-                Some(fmt) => now.format(fmt).to_string(),
-                None => now.to_rfc3339(),
-            };
+        let output = match args.format.as_deref() {
+            Some(fmt) => now.format(fmt).to_string(),
+            None => now.to_rfc3339(),
+        };
 
-            Ok(output)
+        Ok(output)
     }
 }
