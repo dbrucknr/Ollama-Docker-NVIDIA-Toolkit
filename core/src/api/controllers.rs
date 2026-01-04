@@ -58,6 +58,7 @@ impl StreamResponse for OllamaController {
         Extension(provider): Extension<Arc<OllamaProvider>>,
         Json(body): Json<QueryRequestBody>,
     ) -> Sse<impl Stream<Item = Result<Event, Infallible>> + Send> {
+        // This is using the /responses API (can switch to completions for models like gpt-oss)
         let response = provider.agent.stream_prompt(body.query).await;
 
         // I think this needs a JSON response to help avoid some of the whitespace issues in /ui
