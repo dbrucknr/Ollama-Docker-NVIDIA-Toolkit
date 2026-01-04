@@ -1,6 +1,6 @@
 # Ignore Rust Build Contexts and Output
 /target
 # Ignore ui Build Contexts and Output
-/static
+/static/*
 # Keep directory
 !/static/.gitkeep

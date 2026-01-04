@@ -11,7 +11,7 @@
 ## Development Instructions (First time launch)
 To begin the development context, you can run:
 - `docker compose --profile dev up --build` (add `-d` flag for detached mode)
-- Pull the mistral LLM into the container: `docker exec -it ollama ollama run mistral`
+- Pull the mistral LLM into the container: `docker exec -it ollama ollama run llama3.1`
 - You can run the provided ui by changing into the `ui` directory and running `pnpm run dev`.
   - The `/ui` is set to proxy the backend in the `vite.config.ts` file.
   - If you want Rust to serve the frontend `/ui` package, you must run:
@@ -19,6 +19,9 @@ To begin the development context, you can run:
 ```bash
 pnpm run build
 ```
+
+- This will generate files in the /core/static folder.
+- You may need to rebuild the docker image in order for Rust to see them: `docker compose --profile dev up --build`
   
 <!-- Hot-Reload when /ui is built and hosted from axum -->
 pnpm build --watch

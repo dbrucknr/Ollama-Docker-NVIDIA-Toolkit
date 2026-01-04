@@ -15,6 +15,7 @@ use rig::{
 use crate::bot::tools::{
     current_date::CurrentDateTool,
     math::{Adder, Subtract},
+    whois::WhoisTool,
 };
 
 pub struct OllamaProvider {
@@ -32,6 +33,7 @@ impl OllamaProvider {
             )
             // When using Ollama - these tools are not being assigned an ID
             .tool(CurrentDateTool)
+            .tool(WhoisTool) // Ask the AI whois si.umich.edu
             .tool(Adder)
             .tool(Subtract)
             .temperature(0.5)
