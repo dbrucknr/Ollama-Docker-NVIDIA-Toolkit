@@ -1,4 +1,5 @@
 // Local Module Registry
+pub mod shimmy;
 pub mod traits;
 
 // Third Party Library Crates

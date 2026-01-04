@@ -1,28 +1,31 @@
 // Local Module Registry
-pub mod error;
-pub mod traits;
-pub mod schemas;
 pub mod controllers;
+pub mod error;
+pub mod schemas;
+pub mod traits;
+
+use std::error::Error;
 
 // Third Party Library Crates
-use axum::{Router};
+use axum::Router;
 
 // Local Library Crates
-use traits::ApiRouter;
-use controllers::OllamaController;
 use crate::api::traits::ControllerRoutes;
+use controllers::ShimmyController;
+use traits::ApiRouter;
 
 pub struct Api {
     // Register controllers here
     router: Router,
-    ollama: OllamaController, // Consider dynamic dispatch pattern for testability
+    ollama: ShimmyController, // Consider dynamic dispatch pattern for testability
 }
 impl Api {
-    pub fn new() -> Self {
-        Self {
+    pub fn new() -> Result<Self, Box<dyn Error>> {
+        let shimmy = ShimmyController::new()?;
+        Ok(Self {
             router: Router::new(),
-            ollama: OllamaController::new(),
-        }
+            ollama: shimmy,
+        })
     }
 }
 
