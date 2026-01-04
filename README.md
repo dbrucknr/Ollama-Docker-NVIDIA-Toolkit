@@ -26,6 +26,29 @@ docker compose up
 
 To inspect container: docker compose --profile dev run --rm dev bash
 
+# Shimmy Context
+docker compose exec shimmy bash
+curl -LsSf https://hf.co/cli/install.sh | bash
+- In root Directory: 
+hf download bartowski/Llama-3.2-1B-Instruct-GGUF \
+  --include "*Q4_K_M.gguf" \
+  --local-dir ./models
+
+<!-- This one appears to have worked -->
+hf download openai/gpt-oss-20b 
+--include "original/*" \ 
+--local-dir ./models
+
+# List available models
+curl http://localhost:11435/v1/models
+
+# Chat completion
+curl http://localhost:11435/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "model",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
 
 
 Agent routing: https://github.com/0xPlaygrounds/rig/blob/main/rig/rig-core/examples/agent_routing.rs
